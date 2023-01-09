@@ -43,7 +43,7 @@ In conclusion, dollar-cost averaging is a sound strategy for those looking to in
 ```
 
 ### Architecture 
-** Put Some Diagram here**
+![architecture](./docs/architecture.png)
 
 ## Quick Commands
 

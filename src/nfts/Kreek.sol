@@ -9,7 +9,7 @@ import "openzeppelin-contracts/utils/Strings.sol";
 
 contract Kreek is ERC721, ReentrancyGuard, Pausable {
     using Strings for uint256;
-    
+
     struct Asset {
         uint256 amountIn;
         mapping(address => uint256) amountOut;
@@ -165,14 +165,18 @@ contract Kreek is ERC721, ReentrancyGuard, Pausable {
     /**
      * @dev Allocates tokens (from DCA) to the Kreek NFT from Kreek Hot Wallet.
      */
-    function fill(address tokenAddress, uint256 value) public notLive onlyMultisig {
+    function fill(address[] calldata tokenAddresses, uint256[] calldata values) public notLive onlyMultisig {
         require(balances[currentEpoch].active > 0 && isTrading, "There is nothing to fill");
 
-        IERC20(tokenAddress).transferFrom(kreekHotWallet, address(this), value);
-        if (balances[currentEpoch].amountOut[tokenAddress] == 0) {
-            balances[currentEpoch].currencies.push(tokenAddress);
+        for (uint256 i = 0; i < values.length; i++) {
+            address tokenAddress = tokenAddresses[i];
+            uint256 value = values[i];
+            IERC20(tokenAddress).transferFrom(kreekHotWallet, address(this), value);
+            if (balances[currentEpoch].amountOut[tokenAddress] == 0) {
+                balances[currentEpoch].currencies.push(tokenAddress);
+            }
+            balances[currentEpoch].amountOut[tokenAddress] += value / balances[currentEpoch].active;
         }
-        balances[currentEpoch].amountOut[tokenAddress] += value / balances[currentEpoch].active;
         isTrading = false;
     }
 

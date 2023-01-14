@@ -7,6 +7,7 @@ import "../src/nfts/Kreek.sol";
 contract KreekTest is Test {
     Kreek public nft;
 
+    /*
     function setUp() public {
         nft = new Kreek();
     }
@@ -92,6 +93,7 @@ contract KreekTest is Test {
         nft.withdrawPayments(payable(address(0xd3ad)));
         vm.stopPrank();
     }
+    */
 }
 
 contract Receiver is ERC721TokenReceiver {

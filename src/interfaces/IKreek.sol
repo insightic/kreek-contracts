@@ -50,12 +50,12 @@ interface IKreek {
     /**
      * @dev Renewal mint for existing Kreek holders, each `tokenId` can only undergo 1 renewal.
      */
-    function renewalMint(uint256 tokenId) external;
+    function renewTo(uint256 tokenId) external;
 
     /**
-     * @dev Renew Kreek for the next epoch.
+     * @dev Advance Kreek to the next epoch.
      */
-    function renew() external;
+    function advanceEpoch() external;
 
     /**
      * @dev Withdraws a fix amount of stablecoins to the Kreek Hot Wallet for DCA-ing.
